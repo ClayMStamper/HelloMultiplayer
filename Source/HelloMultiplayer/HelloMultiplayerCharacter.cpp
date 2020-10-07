@@ -242,9 +242,9 @@ void AHelloMultiplayerCharacter::HandleFire_Implementation()
 {
 
 	//spawn projectile
-	const FVector actorForward = GetControlRotation().Vector() * 100.0f;
+	const FVector cameraForward = GetControlRotation().Vector() * 100.0f;
 	const FVector actorUp = GetActorUpVector() * 50.f;
-	const FVector spawnLocation = GetActorLocation() + actorForward + actorUp;
+	const FVector spawnLocation = GetActorLocation() + cameraForward + actorUp;
 	const FRotator spawnRotation = GetControlRotation();
 
 	FActorSpawnParameters spawnParameters;
