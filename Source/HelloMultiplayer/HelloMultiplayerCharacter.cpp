@@ -1,14 +1,17 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "HelloMultiplayerCharacter.h"
+#include "HelloMultiplayerProjectile.h"
+#include "HealthBar.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
+#include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "HelloMultiplayerProjectile.h"
+#include "UObject/ConstructorHelpers.h"
 
 //networking includes
 #include "Net/UnrealNetwork.h"
@@ -54,8 +57,12 @@ AHelloMultiplayerCharacter::AHelloMultiplayerCharacter()
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
+	//init health
 	MaxHealth = 100.f;
 	CurrentHealth = MaxHealth;
+	// HealthBar = CreateDefaultSubobject<UHealthBar>("HealthBar");
+	// HealthBar->SetupAttachment(RootComponent);
+	// HealthBar->SetRelativeLocation(FVector(0.f, 0.f, 85.f));
 
 	//Initialize projectile class
 	ProjectileClass = AHelloMultiplayerProjectile::StaticClass();
@@ -71,7 +78,7 @@ AHelloMultiplayerCharacter::AHelloMultiplayerCharacter()
 void AHelloMultiplayerCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Set up gameplay key bindings
-	check(PlayerInputComponent);
+	// check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
@@ -129,7 +136,7 @@ void AHelloMultiplayerCharacter::LookUpAtRate(float Rate)
 
 void AHelloMultiplayerCharacter::MoveForward(float Value)
 {
-	if ((Controller != NULL) && (Value != 0.0f))
+	if ((Controller != nullptr) && (Value != 0.0f))
 	{
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -143,7 +150,7 @@ void AHelloMultiplayerCharacter::MoveForward(float Value)
 
 void AHelloMultiplayerCharacter::MoveRight(float Value)
 {
-	if ( (Controller != NULL) && (Value != 0.0f) )
+	if ( (Controller != nullptr) && (Value != 0.0f) )
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();

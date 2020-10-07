@@ -5,11 +5,6 @@
 
 #include "Components/ProgressBar.h"
 
-void UHealthBar::NativeConstruct()
-{
-    Super::NativeConstruct();
-}
-
 void UHealthBar::SetBarValue(float percent)
 {
     UE_LOG(LogTemp, Warning, TEXT("Setting Health Bar value to: %f"), percent);

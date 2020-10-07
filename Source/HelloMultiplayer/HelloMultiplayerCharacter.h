@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "HealthBar.h"
+#include "Components/WidgetComponent.h"
 #include "GameFramework/Character.h"
 #include "HelloMultiplayerCharacter.generated.h"
 
@@ -35,6 +37,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Health")
+	// UHealthBar* HealthBar = nullptr;
+	
 	/** Getter for Max Health*/
 	UFUNCTION(BlueprintPure, Category="Health")
 	FORCEINLINE float GetMaxHealth() const {return MaxHealth;}

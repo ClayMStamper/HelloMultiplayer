@@ -3,22 +3,22 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "Components/WidgetComponent.h"
+
 #include "HealthBar.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class HELLOMULTIPLAYER_API UHealthBar : public UUserWidget
+class HELLOMULTIPLAYER_API UHealthBar : public UWidgetComponent
 {
 	GENERATED_BODY()
 
 public:
-	virtual void NativeConstruct() override;
 	void SetBarValue(float percent);
 
 protected:
-	UPROPERTY(BlueprintReadOnly, meta=(BindWidget))
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget), Category="Health")
 	class UProgressBar* ProgressBar;
 };
