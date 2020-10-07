@@ -212,6 +212,11 @@ void AHelloMultiplayerCharacter::OnHealthUpdate()
 	
 }
 
+void AHelloMultiplayerCharacter::HandleDeath()
+{
+	
+}
+
 // called on client
 void AHelloMultiplayerCharacter::StartFire()
 {
@@ -226,6 +231,7 @@ void AHelloMultiplayerCharacter::StartFire()
 		// fire
 		bIsFiringWeapon = true;
 		UWorld* World = GetWorld();
+		//manages requests sent to the server
 		World->GetTimerManager().SetTimer(FiringTimer, this, &AHelloMultiplayerCharacter::StopFire, FireRate,false);
 		HandleFire();
 	}

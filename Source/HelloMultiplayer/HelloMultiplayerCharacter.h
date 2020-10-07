@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "HealthBar.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/Character.h"
 #include "HelloMultiplayerCharacter.generated.h"
@@ -106,6 +105,9 @@ protected:
 	 * Client: Response to RepNotify
 	 */
 	void OnHealthUpdate();
+
+	void HandleDeath();
+	void HandleRespawn();
 
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay|Projectile")
 	TSubclassOf<class AHelloMultiplayerProjectile> ProjectileClass;

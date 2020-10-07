@@ -43682,6 +43682,10 @@
       <e p="packages" t="ExcludeRecursive" />
       <e p="Source" t="Include">
         <e p="HelloMultiplayer" t="Include">
+          <e p="GameModes" t="Include">
+            <e p="HelloMultiplayerGameModeBase.cpp" t="Include" />
+            <e p="HelloMultiplayerGameModeBase.h" t="Include" />
+          </e>
           <e p="HealthBar.cpp" t="Include" />
           <e p="HealthBar.h" t="Include" />
           <e p="HelloMultiplayer.Build.cs" t="Include" />

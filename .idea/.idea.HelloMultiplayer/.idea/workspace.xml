@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe0585ec-6fb1-4da0-bb79-5e8cf9b13113" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.HelloMultiplayer/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HelloMultiplayer/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HelloMultiplayer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HelloMultiplayer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_Character.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_Character.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_GameMode.uasset" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +27,9 @@
     <setting file="file://$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerGameMode.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerProjectile.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/HelloMultiplayer/GameModes/HelloMultiplayerGameModeBase.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayer.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/HelloMultiplayer/GameModes/HelloMultiplayerGameModeBase.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerGameMode.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../Program Files (x86)/Epic Games/UE_4.25/Engine/Source/Runtime/Engine/Classes/GameFramework/Character.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../Program Files (x86)/Epic Games/UE_4.25/Engine/Source/Runtime/Core/Public/Math/UnrealMathUtility.h" root0="FORCE_HIGHLIGHTING" />
@@ -39,11 +44,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerProjectile.h" />
-        <option value="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerProjectile.cpp" />
         <option value="$PROJECT_DIR$/Source/HelloMultiplayer/HealthBar.h" />
         <option value="$PROJECT_DIR$/Source/HelloMultiplayer/HealthBar.cpp" />
-        <option value="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.cpp" />
+        <option value="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerProjectile.cpp" />
         <option value="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.h" />
+        <option value="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.cpp" />
+        <option value="$PROJECT_DIR$/Source/HelloMultiplayer/GameModes/HelloMultiplayerGameModeBase.h" />
+        <option value="$PROJECT_DIR$/Source/HelloMultiplayer/GameModes/HelloMultiplayerGameModeBase.cpp" />
       </list>
     </option>
   </component>
@@ -54,6 +61,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -285,7 +293,7 @@
       <workItem from="1601995894212" duration="1973000" />
       <workItem from="1602006521761" duration="2684000" />
       <workItem from="1602014537255" duration="8739000" />
-      <workItem from="1602072937403" duration="1925000" />
+      <workItem from="1602072937403" duration="6641000" />
     </task>
     <servers />
   </component>
@@ -298,6 +306,10 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="1113" y="406" key="RiderGenerateDialog" timestamp="1602079914490">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1113" y="406" key="RiderGenerateDialog/2560.349.1920.1040/0.0.2560.1400@0.0.2560.1400" timestamp="1602079914490" />
     <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1602022506340">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
