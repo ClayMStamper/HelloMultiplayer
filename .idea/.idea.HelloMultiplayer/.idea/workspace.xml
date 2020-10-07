@@ -5,12 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe0585ec-6fb1-4da0-bb79-5e8cf9b13113" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.HelloMultiplayer/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HelloMultiplayer/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HelloMultiplayer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HelloMultiplayer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_GameMode.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_Character.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_Character.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_Projectile.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_Projectile.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Level/GreyBox.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Level/GreyBox.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Mannequin/Character/Materials/M_UE4Man_Body.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Mannequin/Character/Materials/M_UE4Man_Body.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Mannequin/Character/Materials/M_UE4Man_ChestLogo.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Mannequin/Character/Materials/M_UE4Man_ChestLogo.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -293,7 +294,7 @@
       <workItem from="1601995894212" duration="1973000" />
       <workItem from="1602006521761" duration="2684000" />
       <workItem from="1602014537255" duration="8739000" />
-      <workItem from="1602072937403" duration="6641000" />
+      <workItem from="1602072937403" duration="8665000" />
     </task>
     <servers />
   </component>
