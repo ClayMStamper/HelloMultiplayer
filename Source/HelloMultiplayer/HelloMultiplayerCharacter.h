@@ -107,24 +107,27 @@ protected:
 	void OnHealthUpdate();
 
 	void HandleDeath();
-	void HandleRespawn();
 
-	UPROPERTY(EditDefaultsOnly, Category="Gameplay|Projectile")
+
+	// START WEAPON CODE
+	
+	UPROPERTY(EditDefaultsOnly, Category="Gameplay|Combat")
 	TSubclassOf<class AHelloMultiplayerProjectile> ProjectileClass;
 
 	/** Delay between shots in seconds. Used to control fire rate for our test projectile, but also to prevent an overflow of server functions from binding SpawnProjectile directly to input.*/
-	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
+	UPROPERTY(EditDefaultsOnly, Category="Gameplay|Combat")
 	float FireRate;
 
 	/** If true, we are in the process of firing projectiles. */
+	UPROPERTY(Transient)
 	bool bIsFiringWeapon;
 
 	/** Function for beginning weapon fire.*/
-	UFUNCTION(BlueprintCallable, Category="Gameplay")
+	UFUNCTION(BlueprintCallable, Category="Gameplay|Combat")
     void StartFire();
 
 	/** Function for ending weapon fire. Once this is called, the player can use StartFire again.*/
-	UFUNCTION(BlueprintCallable, Category = "Gameplay")
+	UFUNCTION(BlueprintCallable, Category = "Gameplay|Combat")
     void StopFire();  
 
 	/** Server function for spawning projectiles.*/
@@ -132,8 +135,38 @@ protected:
     void HandleFire();
 
 	/** A timer handle used for providing the fire rate delay in-between spawns.*/
+	UPROPERTY(Transient)
 	FTimerHandle FiringTimer;
 
+	// END WEAPON CODE
+
+	// START DODGE-ROLL CODE
+	UPROPERTY(EditDefaultsOnly, Category="Gameplay|Movement")
+	float RollCooldown = 1.5f;
+
+	UPROPERTY(BlueprintReadOnly);
+	bool bIsRolling = false;
+	
+	UFUNCTION(BlueprintCallable, Category="Gameplay|Movement")
+	void StartRoll();
+
+	UFUNCTION(BlueprintCallable, Category="Gameplay|Movement")
+	bool CanRoll();
+
+	UFUNCTION(Category="Gameplay|Movement")
+	void StopRoll();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void HandleDodgeRoll();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void BlueprintDodgeRollCallback();
+	
+	UPROPERTY(Transient)
+	FTimerHandle RollTimer;
+
+	// END DODGE-ROLL CODE
+	
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

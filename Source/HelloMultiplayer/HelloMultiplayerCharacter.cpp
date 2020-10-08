@@ -226,14 +226,15 @@ void AHelloMultiplayerCharacter::StartFire()
 	// can fire
 	if (!bIsFiringWeapon)
 	{
-		NET_LOG("Requesting Fire() from server");
-	
 		// fire
 		bIsFiringWeapon = true;
 		UWorld* World = GetWorld();
 		//manages requests sent to the server
 		World->GetTimerManager().SetTimer(FiringTimer, this, &AHelloMultiplayerCharacter::StopFire, FireRate,false);
 		HandleFire();
+	} else
+	{
+		NET_LOG("Couldn't fire, already firing!");
 	}
 }
 
@@ -242,6 +243,50 @@ void AHelloMultiplayerCharacter::StopFire()
 	NET_LOG("Firing finished");
 	bIsFiringWeapon = false;
 }
+
+void AHelloMultiplayerCharacter::StartRoll()
+{
+
+	NET_LOG("Trying to roll!");
+
+	//can roll
+	if (CanRoll())
+	{
+		//Roll
+		bIsRolling = true;
+		UWorld* World = GetWorld();
+		World->GetTimerManager().SetTimer(RollTimer, this, &AHelloMultiplayerCharacter::StopRoll, RollCooldown,false);
+		HandleDodgeRoll();
+	}
+}
+
+bool AHelloMultiplayerCharacter::CanRoll()
+{
+
+	UCharacterMovementComponent* MoveComponent = GetCharacterMovement();
+
+	const bool bCurrentlyFalling = MoveComponent->IsFalling();
+	const bool bHasMoveInputRights = !MoveComponent->GetLastInputVector().Equals(FVector::ZeroVector);
+
+	const bool bCanRoll = !bIsRolling && !bCurrentlyFalling && bHasMoveInputRights;
+	
+	NET_LOG(FString::Printf(TEXT("CanRoll() = %hs"), bCanRoll ? "true" : "false"));
+	
+	return bCanRoll;
+	
+}
+
+void AHelloMultiplayerCharacter::StopRoll()
+{
+	NET_LOG("Roll is finished");
+	bIsRolling = false;
+}
+
+void AHelloMultiplayerCharacter::HandleDodgeRoll_Implementation()
+{
+	BlueprintDodgeRollCallback();
+}
+
 
 // called on server
 void AHelloMultiplayerCharacter::HandleFire_Implementation()
