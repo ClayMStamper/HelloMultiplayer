@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="fe0585ec-6fb1-4da0-bb79-5e8cf9b13113" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HelloMultiplayer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HelloMultiplayer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Level/GreyBox.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Level/GreyBox.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Mannequin/Animations/ThirdPerson_AnimBP.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Mannequin/Animations/ThirdPerson_AnimBP.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/HelloMultiplayer/HelloMultiplayerCharacter.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -291,7 +292,7 @@
       <workItem from="1601995894212" duration="1973000" />
       <workItem from="1602006521761" duration="2684000" />
       <workItem from="1602014537255" duration="8739000" />
-      <workItem from="1602072937403" duration="17331000" />
+      <workItem from="1602072937403" duration="22217000" />
     </task>
     <servers />
   </component>
@@ -308,9 +309,9 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1113" y="406" key="RiderGenerateDialog/2560.349.1920.1040/0.0.2560.1400@0.0.2560.1400" timestamp="1602079914490" />
-    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1602022506340">
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1602172732832">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup/2560.349.1920.1040/0.0.2560.1400@0.0.2560.1400" timestamp="1602022506340" />
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup/2560.349.1920.1040/0.0.2560.1400@0.0.2560.1400" timestamp="1602172732832" />
   </component>
 </project>

@@ -56,6 +56,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	virtual float TakeDamage( float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser ) override;
 
+	UPROPERTY(EditAnywhere)
+	UAnimMontage* Montage;
+	
 protected:
 
 	/** Resets HMD orientation in VR. */
@@ -141,10 +144,10 @@ protected:
 	// END WEAPON CODE
 
 	// START DODGE-ROLL CODE
-	UPROPERTY(EditDefaultsOnly, Category="Gameplay|Movement")
+	UPROPERTY(BlueprintReadWrite)
 	float RollCooldown = 1.5f;
 
-	UPROPERTY(BlueprintReadOnly);
+	UPROPERTY(BlueprintReadWrite);
 	bool bIsRolling = false;
 	
 	UFUNCTION(BlueprintCallable, Category="Gameplay|Movement")
