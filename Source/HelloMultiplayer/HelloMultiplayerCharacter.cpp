@@ -18,7 +18,9 @@
 #include "Engine/Engine.h"
 
 #define NET_LOG(msg) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, msg)
-#define NET_LOGE(msg) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, msg)
+#define NET_LOG_C(msg, color) GEngine->AddOnScreenDebugMessage(-1, 5.f, color, msg)
+#define NET_LOG_LOCAL(msg) if (IsLocallyControlled()) NET_LOG_C(msg, FColor::Green)
+#define NET_LOG_SERVER(msg) if (GetLocalRole() == ROLE_Authority) NET_LOG_C(msg, FColor::Blue)
 
 //////////////////////////////////////////////////////////////////////////
 // AHelloMultiplayerCharacter
@@ -58,7 +60,6 @@ AHelloMultiplayerCharacter::AHelloMultiplayerCharacter()
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
 	//init health
-	MaxHealth = 100.f;
 	CurrentHealth = MaxHealth;
 	// HealthBar = CreateDefaultSubobject<UHealthBar>("HealthBar");
 	// HealthBar->SetupAttachment(RootComponent);
@@ -102,6 +103,9 @@ void AHelloMultiplayerCharacter::SetupPlayerInputComponent(class UInputComponent
 	
 	// Handle firing projectiles
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AHelloMultiplayerCharacter::StartFire);
+
+	// Handle dodge input
+	PlayerInputComponent->BindAction("Roll", IE_Pressed, this, &AHelloMultiplayerCharacter::Client_StartRoll);
 }
 
 
@@ -191,37 +195,55 @@ void AHelloMultiplayerCharacter::OnHealthUpdate()
 	// client specific logic
 	if (IsLocallyControlled())
 	{
-		NET_LOG(FString::Printf(TEXT("You now have %f health remaining"), CurrentHealth));
+		NET_LOG_LOCAL(FString::Printf(TEXT("You now have %f health remaining"), CurrentHealth));
 		// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
 
 		if (CurrentHealth <= 0)
 		{
-			NET_LOGE(FString::Printf(TEXT("You have been killed")));
+			NET_LOG_LOCAL(FString::Printf(TEXT("Your health is below zero!")));
+			bIsDead = true;
 		}
 		
 	}
 
 	// server specific logic
-	if(GetLocalRole() == ROLE_Authority)
-	{
-		NET_LOG(FString::Printf(TEXT("%s now has %f health remaining"), *GetFName().ToString(), CurrentHealth));
-	}
+	NET_LOG_SERVER(FString::Printf(TEXT("%s now has %f health remaining"), *GetFName().ToString(), CurrentHealth));
 
 	// Universal logic
 	/*functionality that should occur as a result of damage or death goes here*/
 	
 }
 
+void AHelloMultiplayerCharacter::OnRep_IsDead()
+{
+	HandleDeath();
+	NET_LOG_LOCAL(FString::Printf(TEXT("You are now dead!")));
+	GetWorld()->GetTimerManager().SetTimer(DeathTimer, this, &AHelloMultiplayerCharacter::HandleRespawn, RespawnCooldown, false);
+}
+
+//called locally on each client
 void AHelloMultiplayerCharacter::HandleDeath()
 {
-	
+	if (IsLocallyControlled())
+	{
+		//deactivate player controls
+		GetMovementComponent()->Deactivate();
+
+		//play death animation
+	}
+}
+
+void AHelloMultiplayerCharacter::HandleRespawn()
+{
+	NET_LOG_LOCAL(FString::Printf(TEXT("You are now RESPAWNING!!")));
+	bIsDead = false;
 }
 
 // called on client
 void AHelloMultiplayerCharacter::StartFire()
 {
 
-	NET_LOG("Trying to fire");
+	// NET_LOG("Trying to fire");
 	
 	// can fire
 	if (!bIsFiringWeapon)
@@ -231,50 +253,67 @@ void AHelloMultiplayerCharacter::StartFire()
 		UWorld* World = GetWorld();
 		//manages requests sent to the server
 		World->GetTimerManager().SetTimer(FiringTimer, this, &AHelloMultiplayerCharacter::StopFire, FireRate,false);
-		HandleFire();
+		Server_HandleFire();
 	} else
 	{
-		NET_LOG("Couldn't fire, already firing!");
+		// NET_LOG("Couldn't fire, already firing!");
 	}
 }
 
 void AHelloMultiplayerCharacter::StopFire()
 {
-	NET_LOG("Firing finished");
+	// NET_LOG("Firing finished");
 	bIsFiringWeapon = false;
 }
 
-void AHelloMultiplayerCharacter::StartRoll()
+void AHelloMultiplayerCharacter::Client_StartRoll()
 {
-
-	NET_LOG("Trying to roll!");
-
-	//can roll
-	if (CanRoll())
-	{
-		//Roll
+	UE_LOG(LogTemp, Warning, TEXT("Roll input receieved!"));
+	if (CanRoll()) {
 		bIsRolling = true;
 		UWorld* World = GetWorld();
-		World->GetTimerManager().SetTimer(RollTimer, this, &AHelloMultiplayerCharacter::StopRoll, RollCooldown,false);
-		HandleDodgeRoll();
+		World->GetTimerManager().SetTimer(RollTimer, this, &AHelloMultiplayerCharacter::StopRoll, RollCooldown, false);
+		Server_SetRollDirection();
 	}
 }
+
+void AHelloMultiplayerCharacter::Server_SetRollDirection_Implementation()
+{
+	RollDirection = GetActorRotation();
+	PlayAnimMontage(RollMontage);
+	
+}
+
+void AHelloMultiplayerCharacter::OnRep_RollDirection()
+{
+	SetActorRotation(RollDirection);
+	PlayAnimMontage(RollMontage);
+}
+
 
 bool AHelloMultiplayerCharacter::CanRoll()
 {
 
 	UCharacterMovementComponent* MoveComponent = GetCharacterMovement();
 
+	if (!MoveComponent)
+		return false;
+
+	if (bIsRolling)
+		return false;
+
 	const bool bCurrentlyFalling = MoveComponent->IsFalling();
 	const bool bHasMoveInputRights = !MoveComponent->GetLastInputVector().Equals(FVector::ZeroVector);
 
-	const bool bCanRoll = !bIsRolling && !bCurrentlyFalling && bHasMoveInputRights;
+	const bool bCanRoll = !bCurrentlyFalling && bHasMoveInputRights;
 	
-	NET_LOG(FString::Printf(TEXT("CanRoll() = %hs"), bCanRoll ? "true" : "false"));
+	NET_LOG_LOCAL(FString::Printf(TEXT("CanRoll() = %hs"), bCanRoll ? "true" : "false"));
 	
 	return bCanRoll;
 	
 }
+
+
 
 void AHelloMultiplayerCharacter::StopRoll()
 {
@@ -282,14 +321,9 @@ void AHelloMultiplayerCharacter::StopRoll()
 	bIsRolling = false;
 }
 
-void AHelloMultiplayerCharacter::HandleDodgeRoll_Implementation()
-{
-	BlueprintDodgeRollCallback();
-}
-
 
 // called on server
-void AHelloMultiplayerCharacter::HandleFire_Implementation()
+void AHelloMultiplayerCharacter::Server_HandleFire_Implementation()
 {
 
 	//spawn projectile
@@ -313,4 +347,6 @@ void AHelloMultiplayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProp
 
 	//Replicate current health
 	DOREPLIFETIME(AHelloMultiplayerCharacter, CurrentHealth);
+	DOREPLIFETIME(AHelloMultiplayerCharacter, bIsDead);
+	DOREPLIFETIME(AHelloMultiplayerCharacter, RollDirection);
 }

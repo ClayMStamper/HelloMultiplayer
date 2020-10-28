@@ -57,7 +57,7 @@ public:
 	virtual float TakeDamage( float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser ) override;
 
 	UPROPERTY(EditAnywhere)
-	UAnimMontage* Montage;
+	UAnimMontage* RollMontage;
 	
 protected:
 
@@ -92,8 +92,10 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
 
+	// START HEALTH / DEATH CODE
+	
 	/** The player's maximum health. This is the highest that their health can be, and the value that their health starts at when spawned.*/
-	UPROPERTY(EditDefaultsOnly, Category="Health")
+	UPROPERTY(EditAnywhere, Category="Health")
 	float MaxHealth = 100.f;
 
 	/** The player's current health - dead when reduced to zero*/
@@ -109,8 +111,28 @@ protected:
 	 */
 	void OnHealthUpdate();
 
+	UPROPERTY(ReplicatedUsing=OnRep_IsDead)
+	bool bIsDead = false;
+
+	UFUNCTION()
+	void OnRep_IsDead();
+
+	UPROPERTY(Transient)
+	FTimerHandle DeathTimer;
+
+	UPROPERTY(EditAnywhere, Category="Death")
+	float RespawnCooldown = 3.f;
+
+	/**
+	 * Response to IsDead being updated
+	 */
+	UFUNCTION()
 	void HandleDeath();
 
+	UFUNCTION()
+	void HandleRespawn();
+
+	// END HEALTH / DEATH CODE
 
 	// START WEAPON CODE
 	
@@ -135,7 +157,7 @@ protected:
 
 	/** Server function for spawning projectiles.*/
 	UFUNCTION(Server, Reliable)
-    void HandleFire();
+    void Server_HandleFire();
 
 	/** A timer handle used for providing the fire rate delay in-between spawns.*/
 	UPROPERTY(Transient)
@@ -144,23 +166,24 @@ protected:
 	// END WEAPON CODE
 
 	// START DODGE-ROLL CODE
+	UPROPERTY(ReplicatedUsing = OnRep_RollDirection)
+	FRotator RollDirection;
 	UPROPERTY(BlueprintReadWrite)
 	float RollCooldown = 1.5f;
-
 	UPROPERTY(BlueprintReadWrite);
 	bool bIsRolling = false;
-	
-	UFUNCTION(BlueprintCallable, Category="Gameplay|Movement")
-	void StartRoll();
 
-	UFUNCTION(BlueprintCallable, Category="Gameplay|Movement")
+	UFUNCTION()
+	void Client_StartRoll();
+	UFUNCTION(BlueprintCallable, Category = "Gameplay|Movement")
 	bool CanRoll();
+	UFUNCTION(Server, Reliable)
+	void Server_SetRollDirection();
+	UFUNCTION()
+	void OnRep_RollDirection();
 
 	UFUNCTION(Category="Gameplay|Movement")
 	void StopRoll();
-
-	UFUNCTION(NetMulticast, Reliable)
-	void HandleDodgeRoll();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void BlueprintDodgeRollCallback();
