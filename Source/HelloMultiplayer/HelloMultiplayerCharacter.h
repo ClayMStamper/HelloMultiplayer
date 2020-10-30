@@ -39,13 +39,14 @@ public:
 	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Health")
 	// UHealthBar* HealthBar = nullptr;
 	
-	/** Getter for Max Health*/
 	UFUNCTION(BlueprintPure, Category="Health")
 	FORCEINLINE float GetMaxHealth() const {return MaxHealth;}
-
-	/** Getter for Current Health*/
 	UFUNCTION(BlueprintPure, Category="Health")
     FORCEINLINE float GetCurrentHealth() const {return CurrentHealth;}
+	UFUNCTION(BlueprintPure, Category = "Spell Casting")
+	FORCEINLINE float GetMaxMana() const { return MaxMana; };
+	UFUNCTION(BlueprintPure, Category = "Spell Casting")
+	FORCEINLINE float GetCurrentMana() const { return CurrentMana; };
 
 	/** Setter for Current Health.
 	 *Clamps the value between 0 and MaxHealth and calls OnHealthUpdate. Should only be called on the server.*/
@@ -103,19 +104,26 @@ protected:
 	/** The player's maximum health. This is the highest that their health can be, and the value that their health starts at when spawned.*/
 	UPROPERTY(EditAnywhere, Category="Health")
 	float MaxHealth = 100.f;
-
+	UPROPERTY(EditAnywhere, Category = "Spell Casting")
+	float MaxMana = 100.f;
+	
 	/** The player's current health - dead when reduced to zero*/
 	UPROPERTY(ReplicatedUsing=OnRep_CurrentHealth)
 	float CurrentHealth;
+	UPROPERTY(ReplicatedUsing = OnRep_CurrentMana)
+	float CurrentMana;
 
 	UFUNCTION()
 	void OnRep_CurrentHealth();
+	UFUNCTION()
+	void OnRep_CurrentMana();
 
 	/** Response to health being updated - NOT REPLICATED - called on each device
 	 * Server: Immediately after modification
 	 * Client: Response to RepNotify
 	 */
-	void OnHealthUpdate();
+	void Client_OnHealthUpdate();
+	void Client_OnManaUpdate();
 
 	UPROPERTY(ReplicatedUsing=OnRep_IsDead)
 	bool bIsDead = false;

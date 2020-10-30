@@ -114,6 +114,7 @@ void AHelloMultiplayerCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	CurrentHealth = MaxHealth;
+	CurrentMana = MaxMana;
 }
 
 void AHelloMultiplayerCharacter::OnResetVR()
@@ -178,7 +179,7 @@ void AHelloMultiplayerCharacter::SetCurrentHealth(float healthValue)
 	if (GetLocalRole() == ROLE_Authority)
 	{
 		CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
-		OnHealthUpdate();
+		Client_OnHealthUpdate();
 	}
 }
 
@@ -191,10 +192,14 @@ float AHelloMultiplayerCharacter::TakeDamage(float DamageTaken, FDamageEvent con
 
 void AHelloMultiplayerCharacter::OnRep_CurrentHealth()
 {
-	OnHealthUpdate();
+	Client_OnHealthUpdate();
 }
 
-void AHelloMultiplayerCharacter::OnHealthUpdate()
+void AHelloMultiplayerCharacter::OnRep_CurrentMana()
+{
+}
+
+void AHelloMultiplayerCharacter::Client_OnHealthUpdate()
 {
 
 	// client specific logic
@@ -216,6 +221,11 @@ void AHelloMultiplayerCharacter::OnHealthUpdate()
 
 	// Universal logic
 	/*functionality that should occur as a result of damage or death goes here*/
+	
+}
+
+void AHelloMultiplayerCharacter::Client_OnManaUpdate()
+{
 	
 }
 
@@ -351,6 +361,7 @@ void AHelloMultiplayerCharacter::Server_HandleFire_Implementation()
 	spawnParameters.Owner = this;
 
 	AHelloMultiplayerProjectile* spawnedProjectile = GetWorld()->SpawnActor<AHelloMultiplayerProjectile>(spawnLocation, spawnRotation, spawnParameters);
+	
 	
 }
 
