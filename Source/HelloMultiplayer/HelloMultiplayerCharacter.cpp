@@ -69,7 +69,7 @@ AHelloMultiplayerCharacter::AHelloMultiplayerCharacter()
 	ProjectileClass = AHelloMultiplayerProjectile::StaticClass();
 	//Initialize fire rate
 	FireRate = 0.25f;
-	bIsFiringWeapon = false;
+	bIsCasting1H = false;
 	
 }
 
@@ -109,7 +109,12 @@ void AHelloMultiplayerCharacter::SetupPlayerInputComponent(class UInputComponent
 }
 
 
+void AHelloMultiplayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
 
+	CurrentHealth = MaxHealth;
+}
 
 void AHelloMultiplayerCharacter::OnResetVR()
 {
@@ -239,6 +244,7 @@ void AHelloMultiplayerCharacter::HandleRespawn()
 	bIsDead = false;
 }
 
+
 // called on client
 void AHelloMultiplayerCharacter::StartFire()
 {
@@ -246,14 +252,15 @@ void AHelloMultiplayerCharacter::StartFire()
 	// NET_LOG("Trying to fire");
 	
 	// can fire
-	if (!bIsFiringWeapon)
+	if (!bIsCasting1H)
 	{
 		// fire
-		bIsFiringWeapon = true;
+		Blueprint_OnFire();
 		UWorld* World = GetWorld();
 		//manages requests sent to the server
 		World->GetTimerManager().SetTimer(FiringTimer, this, &AHelloMultiplayerCharacter::StopFire, FireRate,false);
 		Server_HandleFire();
+		bIsCasting1H = true;
 	} else
 	{
 		// NET_LOG("Couldn't fire, already firing!");
@@ -263,7 +270,7 @@ void AHelloMultiplayerCharacter::StartFire()
 void AHelloMultiplayerCharacter::StopFire()
 {
 	// NET_LOG("Firing finished");
-	bIsFiringWeapon = false;
+	bIsCasting1H = false;
 }
 
 void AHelloMultiplayerCharacter::Client_StartRoll()
@@ -271,14 +278,21 @@ void AHelloMultiplayerCharacter::Client_StartRoll()
 	UE_LOG(LogTemp, Warning, TEXT("Roll input receieved!"));
 	if (CanRoll()) {
 		bIsRolling = true;
-		UWorld* World = GetWorld();
-		World->GetTimerManager().SetTimer(RollTimer, this, &AHelloMultiplayerCharacter::StopRoll, RollCooldown, false);
+		GetWorld()->GetTimerManager().SetTimer(RollTimer, this, &AHelloMultiplayerCharacter::StopRoll, RollCooldown, false);
 		Server_SetRollDirection();
 	}
 }
 
+
+
 void AHelloMultiplayerCharacter::Server_SetRollDirection_Implementation()
 {
+	if (!CanRoll())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Declining roll request on server"));
+		return;
+	}
+
 	RollDirection = GetActorRotation();
 	PlayAnimMontage(RollMontage);
 	
@@ -305,7 +319,7 @@ bool AHelloMultiplayerCharacter::CanRoll()
 	const bool bCurrentlyFalling = MoveComponent->IsFalling();
 	const bool bHasMoveInputRights = !MoveComponent->GetLastInputVector().Equals(FVector::ZeroVector);
 
-	const bool bCanRoll = !bCurrentlyFalling && bHasMoveInputRights;
+	const bool bCanRoll = !bCurrentlyFalling && (bHasMoveInputRights || HasAuthority());
 	
 	NET_LOG_LOCAL(FString::Printf(TEXT("CanRoll() = %hs"), bCanRoll ? "true" : "false"));
 	

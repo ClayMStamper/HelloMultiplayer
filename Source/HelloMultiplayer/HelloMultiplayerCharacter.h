@@ -58,9 +58,15 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	UAnimMontage* RollMontage;
+	UPROPERTY(EditAnywhere)
+	UAnimMontage* AttackMontage;
+	UPROPERTY(EditAnywhere)
+	UAnimMontage* DeathMontage;
 	
 protected:
 
+	virtual void BeginPlay() override;
+	
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
 
@@ -144,12 +150,15 @@ protected:
 	float FireRate;
 
 	/** If true, we are in the process of firing projectiles. */
-	UPROPERTY(Transient)
-	bool bIsFiringWeapon;
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	bool bIsCasting1H;
 
 	/** Function for beginning weapon fire.*/
 	UFUNCTION(BlueprintCallable, Category="Gameplay|Combat")
     void StartFire();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void Blueprint_OnFire();
 
 	/** Function for ending weapon fire. Once this is called, the player can use StartFire again.*/
 	UFUNCTION(BlueprintCallable, Category = "Gameplay|Combat")
@@ -181,7 +190,6 @@ protected:
 	void Server_SetRollDirection();
 	UFUNCTION()
 	void OnRep_RollDirection();
-
 	UFUNCTION(Category="Gameplay|Movement")
 	void StopRoll();
 
